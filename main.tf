@@ -14,24 +14,20 @@ provider "docker" {}
 
 
 
-# Pull de l’image PostgreSQL depuis Docker Hub
 resource "docker_image" "postgres_image" {
   name         = "postgres:latest"
   keep_locally = true
 }
 
-# Conteneur PostgreSQL
 resource "docker_container" "db_container" {
   name  = "tp-db-postgres"
-  image = docker_image.postgres_image.latest
+  image = docker_image.postgres_image.image_id
 
-  # Mapping de ports
   ports {
     internal = 5432
     external = 5432
   }
 
-  # Variables d’environnement (via variables.tf)
   env = [
     "POSTGRES_USER=${var.db_user}",
     "POSTGRES_PASSWORD=${var.db_password}",
@@ -41,7 +37,7 @@ resource "docker_container" "db_container" {
 
 
 
-# Construction de l’image web depuis Dockerfile_app
+
 resource "docker_image" "app_image" {
   name = "tp-web-app:latest"
 
@@ -51,19 +47,16 @@ resource "docker_image" "app_image" {
   }
 }
 
-# Conteneur de l’application Web
 resource "docker_container" "app_container" {
   name  = "tp-app-web"
-  image = docker_image.app_image.latest
+  image = docker_image.app_image.image_id
 
-  # L'application dépend de la disponibilité de la DB
   depends_on = [
     docker_container.db_container
   ]
 
-  # Mapping des ports
   ports {
-    internal = 80
+    internal = 82
     external = var.app_port_external
   }
 }
