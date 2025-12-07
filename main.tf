@@ -1,3 +1,5 @@
+# main.tf (Assurez-vous que ce code est bien dans votre fichier)
+
 variable "db_user" {
   description = "Utilisateur pour la base de données PostgreSQL"
   type        = string
@@ -27,12 +29,14 @@ terraform {
   required_providers {
     docker = {
       source  = "kreuzwerker/docker"
-      version = "~> 3.0.1"
+      # Nous utilisons une version 2.x stable pour éviter le bug de la 3.x
+      version = "~> 2.15.0" 
     }
   }
 }
 
 provider "docker" {
+  # C'est la ligne clé pour la correction de l'API
   api_version = "1.52"
 }
 
