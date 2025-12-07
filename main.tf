@@ -29,14 +29,14 @@ terraform {
   required_providers {
     docker = {
       source  = "kreuzwerker/docker"
-      # Nous utilisons une version 2.x stable pour éviter le bug de la 3.x
+      # Utilisation d'une version stable 2.x pour éviter les bugs
       version = "~> 2.15.0" 
     }
   }
 }
 
 provider "docker" {
-  # C'est la ligne clé pour la correction de l'API
+  # Configuration de l'API forcée
   api_version = "1.52"
 }
 
