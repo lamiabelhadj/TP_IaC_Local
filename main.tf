@@ -36,8 +36,11 @@ terraform {
 }
 
 provider "docker" {
-  # Configuration de l'API forcée
-  api_version = "1.52"
+  # Use a lower API version compatible with Docker client 1.41
+  api_version = "1.40"
+  
+  # Alternatively, try 1.41 specifically
+  # api_version = "1.41"
 }
 
 resource "docker_image" "postgres_image" {
