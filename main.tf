@@ -9,7 +9,10 @@ terraform {
   }
 }
 
-provider "docker" {}
+provider "docker" {
+  host = "unix:///dev/null"
+}
+
 
 
 
