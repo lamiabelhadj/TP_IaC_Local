@@ -22,13 +22,13 @@ jobs:
 
       # Étape 3 — Initialisation
       - name: Terraform Init
-      run: terraform init -input=false
+        run: terraform init -input=false
 
       # Étape 4 — Planification
       - name: Terraform Plan
-      run: terraform plan -input=false -no-color || true
+        run: terraform plan -input=false -no-color || true
 
       # Étape 5 — Application uniquement si Plan fonctionne
       - name: Terraform Apply
-      if: success()
-      run: terraform apply -auto-approve -input=false -no-color || true
+        if: success()
+        run: terraform apply -auto-approve -input=false -no-color || true
