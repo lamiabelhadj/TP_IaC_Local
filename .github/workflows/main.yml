@@ -1,0 +1,35 @@
+name: Terraform CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Étape 1 — Récupération du code
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      # Étape 2 — Installer Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.5
+
+      # Étape 3 — Initialisation
+      - name: Terraform Init
+        run: terraform init
+
+      # Étape 4 — Planification
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+
+      # Étape 5 — Application uniquement si Plan fonctionne
+      - name: Terraform Apply
+        if: success()
+        run: terraform apply -auto-approve -no-color
