@@ -1,50 +1,21 @@
-# main.tf (Assurez-vous que ce code est bien dans votre fichier)
 
-variable "db_user" {
-  description = "Utilisateur pour la base de données PostgreSQL"
-  type        = string
-  default     = "user"
-}
-
-variable "db_password" {
-  description = "Mot de passe pour la base de données PostgreSQL"
-  type        = string
-  default     = "password"
-  sensitive   = true
-}
-
-variable "db_name" {
-  description = "Nom de la base de données PostgreSQL"
-  type        = string
-  default     = "mydatabase"
-}
-
-variable "app_port_external" {
-  description = "Port externe pour l'application web (ex: 8080)"
-  type        = number
-  default     = 8080
-}
 
 terraform {
   required_providers {
     docker = {
       source  = "kreuzwerker/docker"
-      # Utilisation d'une version stable 2.x pour éviter les bugs
-      version = "~> 2.15.0" 
+      version = "~> 3.0.1"
     }
   }
 }
 
-provider "docker" {
-  # Use a lower API version compatible with Docker client 1.41
-  api_version = "1.40"
-  
-  # Alternatively, try 1.41 specifically
-  # api_version = "1.41"
-}
+provider "docker" {}
+
+
+
 
 resource "docker_image" "postgres_image" {
-  name           = "postgres:latest"
+  name         = "postgres:latest"
   keep_locally = true
 }
 
@@ -63,6 +34,9 @@ resource "docker_container" "db_container" {
     "POSTGRES_DB=${var.db_name}",
   ]
 }
+
+
+
 
 resource "docker_image" "app_image" {
   name = "tp-web-app:latest"
