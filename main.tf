@@ -41,25 +41,3 @@ resource "docker_container" "db_container" {
 
 
 
-resource "docker_image" "app_image" {
-  name = "tp-web-app:latest"
-
-  build {
-    context    = "."
-    dockerfile = "Dockerfile_app"
-  }
-}
-
-resource "docker_container" "app_container" {
-  name  = "tp-app-web"
-  image = docker_image.app_image.image_id
-
-  depends_on = [
-    docker_container.db_container
-  ]
-
-  ports {
-    internal = 82
-    external = var.app_port_external
-  }
-}
